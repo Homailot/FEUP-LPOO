@@ -1,5 +1,5 @@
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -11,7 +11,8 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    private Hero hero;
+    private Arena arena;
+    private TextGraphics graphics;
 
     public Game() {
         try {
@@ -28,25 +29,17 @@ public class Game {
             e.printStackTrace();
         }
 
-        hero = new Hero(10, 10);
+        arena = new Arena(40,20);
+        graphics = screen.newTextGraphics();
     }
 
     private void processKey(KeyStroke key) {
-        switch (key.getKeyType()) {
-            case ArrowUp -> moveHero(hero.moveUp());
-            case ArrowDown -> moveHero(hero.moveDown());
-            case ArrowLeft -> moveHero(hero.moveLeft());
-            case ArrowRight -> moveHero(hero.moveRight());
-        }
-    }
-
-    private void moveHero(Position position) {
-        hero.setPosition(position);
+        arena.processKey(key);
     }
 
     private void draw() throws IOException {
         screen.clear();
-        hero.draw(screen);
+        arena.draw(graphics);
         screen.refresh();
     }
 
