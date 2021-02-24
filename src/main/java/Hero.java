@@ -3,15 +3,9 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class Hero {
-    private Position position;
-
-    public Hero() {
-        position = new Position(0,0);
-    }
-
+public class Hero extends Element{
     public Hero(int x, int y) {
-        position = new Position(x,y);
+        super(x,y);
     }
 
 
@@ -32,17 +26,10 @@ public class Hero {
         return new Position(position.getX()+1, position.getY());
     }
 
+    @Override
     public void draw(TextGraphics graphics) {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(position.getX(), position.getY()), "X");
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 }
