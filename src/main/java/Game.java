@@ -7,13 +7,11 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.input.KeyStroke;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    private int x = 10;
-    private int y = 10;
+    private Hero hero;
 
     public Game() {
         try {
@@ -29,20 +27,22 @@ public class Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        hero = new Hero(10, 10);
     }
 
     private void processKey(KeyStroke key) {
         switch (key.getKeyType()) {
-            case ArrowUp -> y--;
-            case ArrowDown -> y++;
-            case ArrowLeft -> x--;
-            case ArrowRight -> x++;
+            case ArrowUp -> hero.moveUp();
+            case ArrowDown -> hero.moveDown();
+            case ArrowLeft -> hero.moveLeft();
+            case ArrowRight -> hero.moveRight();
         }
     }
 
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+        hero.draw(screen);
         screen.refresh();
     }
 
