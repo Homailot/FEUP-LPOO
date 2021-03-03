@@ -8,6 +8,8 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.input.KeyStroke;
+import level.Arena;
+import level.Level;
 
 import java.io.IOException;
 
@@ -15,6 +17,11 @@ public class Game {
     private Screen screen;
     private Arena arena;
     private TextGraphics graphics;
+    private enum State {
+        GAME,
+        CLOSING
+    }
+    private State state;
 
     public Game() {
         int width = 40;
@@ -35,6 +42,7 @@ public class Game {
 
         arena = new Arena(width,height);
         graphics = screen.newTextGraphics();
+        state = State.GAME;
     }
 
     private void draw() throws IOException {
@@ -44,27 +52,37 @@ public class Game {
     }
 
     public void run() throws IOException {
-        while (true) {
-            draw();
-            KeyStroke key = screen.readInput();
-            if(!arena.processKey(key)) {
-                System.out.println("You LOST!");
-                screen.close();
-                break;
+        while (state != State.CLOSING) {
+            switch (state) {
+                case GAME:
+                    draw();
+                    KeyStroke key = screen.readInput();
+                    processKey(key);
+                    break;
+                default:
+                    break;
             }
+        }
+    }
 
+    private void processKey(KeyStroke key) throws IOException {
+        arena.processKey(key);
+        if(arena.getState() == Level.LevelState.CLOSING) {
+            endGame();
+            return;
+        }
 
-            KeyType keyType = key.getKeyType();
-            if(keyType == KeyType.Character && key.getCharacter() == 'q') {
-                screen.close();
-            } else if (keyType == KeyType.EOF) {
-                break;
-            }
+        KeyType keyType = key.getKeyType();
+        if(keyType == KeyType.Character && key.getCharacter() == 'q') {
+            screen.close();
+        } else if (keyType == KeyType.EOF) {
+            state = State.CLOSING;
         }
     }
 
     public void endGame() throws IOException {
         System.out.println("You died!");
         screen.close();
+        state = State.CLOSING;
     }
 }

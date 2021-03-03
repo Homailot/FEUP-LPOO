@@ -1,52 +1,35 @@
-package game;
+package level;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import element.Hero;
 import element.Monster;
 import element.Wall;
 import element.Coin;
 import utils.Position;
 
+import javax.naming.LimitExceededException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Arena {
-    private int width;
-    private int height;
+public class Arena extends Level {
     private final Hero hero;
     private final List<Wall> walls;
     private final List<Monster> monsters;
     private final List<Coin> coins;
 
     public Arena(int width, int height) {
+        super(width, height);
         hero = new Hero(3, 3);
-        this.width = width;
-        this.height = height;
+
 
         this.walls = createWalls();
         this.coins = createCoins();
         this.monsters = createMonsters();
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     private void retrieveCoins() {
@@ -65,7 +48,28 @@ public class Arena {
         if(canHeroMove(position))
             hero.setPosition(position);
 
+    }
+
+    @Override
+    public void processKey(KeyStroke key) {
+        switch (key.getKeyType()) {
+            case ArrowUp -> moveHero(hero.moveUp());
+            case ArrowDown -> moveHero(hero.moveDown());
+            case ArrowLeft -> moveHero(hero.moveLeft());
+            case ArrowRight -> moveHero(hero.moveRight());
+        }
+
         retrieveCoins();
+
+        if(verifyMonsterCollisions()) {
+            setState(LevelState.CLOSING);
+        }
+
+        moveMonsters();
+
+        if(verifyMonsterCollisions()) {
+            setState(LevelState.CLOSING);
+        }
     }
 
     private boolean verifyMonsterCollisions() {
@@ -89,19 +93,13 @@ public class Arena {
         }
     }
 
-    public boolean processKey(KeyStroke key) {
-        switch (key.getKeyType()) {
-            case ArrowUp -> moveHero(hero.moveUp());
-            case ArrowDown -> moveHero(hero.moveDown());
-            case ArrowLeft -> moveHero(hero.moveLeft());
-            case ArrowRight -> moveHero(hero.moveRight());
+    @Override
+    protected boolean canHeroMove(Position position) {
+        for(Wall wall: walls) {
+            if(position.equals(wall.getPosition())) return false;
         }
 
-        if(verifyMonsterCollisions()) return false;
-
-        moveMonsters();
-
-        return !verifyMonsterCollisions();
+        return super.canHeroMove(position);
     }
 
     public void draw(TextGraphics graphics) {
@@ -117,14 +115,6 @@ public class Arena {
 
         for(Monster monster: monsters)
             monster.draw(graphics);
-    }
-
-    private boolean canHeroMove(Position position) {
-        for(Wall wall: walls) {
-            if(position.equals(wall.getPosition())) return false;
-        }
-
-        return position.getX() >= 0 && position.getX() < width && position.getY() >= 0 && position.getY() < height;
     }
 
     private List<Wall> createWalls() {
