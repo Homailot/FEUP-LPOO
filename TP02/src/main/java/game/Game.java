@@ -27,7 +27,7 @@ public class Game {
         int width = 40;
         int height = 20;
         try {
-            TerminalSize terminalSize = new TerminalSize(width, height);
+            TerminalSize terminalSize = new TerminalSize(width, height+5);
             Terminal terminal = new DefaultTerminalFactory()
                     .setInitialTerminalSize(terminalSize)
                     .createTerminal();
@@ -57,7 +57,14 @@ public class Game {
                 case GAME:
                     draw();
                     KeyStroke key = screen.readInput();
+
                     processKey(key);
+                    arena.run(key);
+
+                    if(arena.getState() == Level.LevelState.CLOSING) {
+                        endGame();
+                        return;
+                    }
                     break;
                 default:
                     break;
@@ -66,12 +73,6 @@ public class Game {
     }
 
     private void processKey(KeyStroke key) throws IOException {
-        arena.run(key);
-        if(arena.getState() == Level.LevelState.CLOSING) {
-            endGame();
-            return;
-        }
-
         KeyType keyType = key.getKeyType();
         if(keyType == KeyType.Character && key.getCharacter() == 'q') {
             screen.close();

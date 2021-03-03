@@ -9,12 +9,13 @@ import utils.Position;
 public class Hero extends Element {
     private int health;
     private int maxHealth;
+    private int score;
 
     public Hero(int x, int y) {
         super(x,y);
         health = 100;
         maxHealth = 100;
-
+        score = 0;
     }
 
 
@@ -49,5 +50,13 @@ public class Hero extends Element {
     public void setHealth(int health) {
         if(health < 0) this.health = 0;
         else this.health = Math.min(health, maxHealth);
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

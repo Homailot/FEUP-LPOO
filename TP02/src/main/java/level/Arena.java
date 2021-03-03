@@ -1,5 +1,6 @@
 package level;
 
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -39,6 +40,7 @@ public class Arena extends Level {
             if(this.hero.getPosition().getX() == coin.getPosition().getX() &&
                this.hero.getPosition().getY() == coin.getPosition().getY()) {
                 this.coins.remove(i);
+                hero.setScore(hero.getScore() + 10);
                 break;
             }
         }
@@ -131,6 +133,12 @@ public class Arena extends Level {
             monster.draw(graphics);
 
         hero.draw(graphics);
+
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.putString(new TerminalPosition(2, height+2),  "Health: " + hero.getHealth());
+        graphics.putString(new TerminalPosition(width/2 - 5, height+2),  "Score: " + hero.getScore());
     }
 
     private List<Wall> createWalls() {
