@@ -6,19 +6,22 @@ import com.googlecode.lanterna.input.KeyStroke;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
     private int width;
     private int height;
     private Hero hero;
     private List<Wall> walls;
+    private List<Coin> coins;
 
     public Arena(int width, int height) {
-        hero = new Hero(10, 10);
+        hero = new Hero(3, 3);
         this.width = width;
         this.height = height;
 
         this.walls = createWalls();
+        this.coins = createCoins();
     }
 
     public int getWidth() {
@@ -37,9 +40,23 @@ public class Arena {
         this.height = height;
     }
 
+    public void retrieveCoins() {
+        for(int i = 0; i < this.coins.size(); i++) {
+            Coin coin = this.coins.get(i);
+
+            if(this.hero.getPosition().getX() == coin.getPosition().getX() &&
+               this.hero.getPosition().getY() == coin.getPosition().getY()) {
+                this.coins.remove(i);
+                break;
+            }
+        }
+    }
+
     public void moveHero(Position position) {
         if(canHeroMove(position))
             hero.setPosition(position);
+
+        retrieveCoins();
     }
 
     public void processKey(KeyStroke key) {
@@ -58,6 +75,9 @@ public class Arena {
 
         for(Wall wall: walls)
             wall.draw(graphics);
+
+        for(Coin coin: coins)
+            coin.draw(graphics);
     }
 
     private boolean canHeroMove(Position position) {
@@ -82,5 +102,36 @@ public class Arena {
         }
 
         return walls;
+    }
+
+    private List<Coin> createCoins() {
+        Random random = new Random();
+        ArrayList<Coin> coins = new ArrayList<>();
+        int x, y;
+        boolean overlaps;
+
+        for(int i = 0; i < 5; i++) {
+            do {
+                overlaps = false;
+                x = random.nextInt(width-2) + 1;
+                y = random.nextInt(height - 2) + 1;
+
+                if (x == hero.getPosition().getX() && y == hero.getPosition().getY()) {
+                    overlaps = true;
+                    continue;
+                }
+
+                for(Coin coin:coins) {
+                    if(x == coin.getPosition().getX() && y == coin.getPosition().getY()) {
+                        overlaps = true;
+                        break;
+                    }
+                }
+            } while(overlaps);
+
+            coins.add(new Coin(x, y));
+        }
+
+        return coins;
     }
 }

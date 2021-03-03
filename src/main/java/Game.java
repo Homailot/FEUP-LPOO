@@ -15,8 +15,10 @@ public class Game {
     private TextGraphics graphics;
 
     public Game() {
+        int width = 40;
+        int height = 20;
         try {
-            TerminalSize terminalSize = new TerminalSize(40, 20);
+            TerminalSize terminalSize = new TerminalSize(width, height);
             Terminal terminal = new DefaultTerminalFactory()
                     .setInitialTerminalSize(terminalSize)
                     .createTerminal();
@@ -29,7 +31,7 @@ public class Game {
             e.printStackTrace();
         }
 
-        arena = new Arena(40,20);
+        arena = new Arena(width,height);
         graphics = screen.newTextGraphics();
     }
 
