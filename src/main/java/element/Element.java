@@ -1,4 +1,7 @@
+package element;
+
 import com.googlecode.lanterna.graphics.TextGraphics;
+import utils.Position;
 
 public abstract class Element {
     protected Position position;

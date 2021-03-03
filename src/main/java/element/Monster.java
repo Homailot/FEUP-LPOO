@@ -1,10 +1,13 @@
+package element;
+
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import utils.Position;
 
 import java.util.Random;
 
-public class Monster extends Element{
+public class Monster extends Element {
     public Monster(int x, int y) {
         super(x, y);
     }
