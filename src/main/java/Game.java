@@ -35,10 +35,6 @@ public class Game {
         graphics = screen.newTextGraphics();
     }
 
-    private void processKey(KeyStroke key) {
-        arena.processKey(key);
-    }
-
     private void draw() throws IOException {
         screen.clear();
         arena.draw(graphics);
@@ -49,7 +45,11 @@ public class Game {
         while (true) {
             draw();
             KeyStroke key = screen.readInput();
-            processKey(key);
+            if(!arena.processKey(key)) {
+                System.out.println("You LOST!");
+                screen.close();
+                break;
+            }
 
 
             KeyType keyType = key.getKeyType();
@@ -59,7 +59,10 @@ public class Game {
                 break;
             }
         }
+    }
 
-
+    public void endGame() throws IOException {
+        System.out.println("You died!");
+        screen.close();
     }
 }
