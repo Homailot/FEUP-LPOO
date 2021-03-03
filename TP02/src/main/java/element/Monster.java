@@ -8,8 +8,11 @@ import utils.Position;
 import java.util.Random;
 
 public class Monster extends Element {
+    private int attackPower;
+
     public Monster(int x, int y) {
         super(x, y);
+        attackPower = 12;
     }
 
 
@@ -29,5 +32,9 @@ public class Monster extends Element {
     public void draw(TextGraphics graphics) {
         graphics.setForegroundColor(TextColor.Factory.fromString("#fc0703"));
         graphics.putString(new TerminalPosition(position.getX(), position.getY()), "M");
+    }
+
+    public int getAttackPower() {
+        return attackPower;
     }
 }

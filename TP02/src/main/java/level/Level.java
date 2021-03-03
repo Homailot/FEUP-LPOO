@@ -50,4 +50,6 @@ public abstract class Level {
     }
 
     protected abstract void processKey(KeyStroke key);
+
+    protected abstract void run(KeyStroke key);
 }

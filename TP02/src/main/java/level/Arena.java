@@ -11,7 +11,7 @@ import element.Wall;
 import element.Coin;
 import utils.Position;
 
-import javax.naming.LimitExceededException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -59,27 +59,42 @@ public class Arena extends Level {
             case ArrowRight -> moveHero(hero.moveRight());
         }
 
+
+    }
+
+    @Override
+    public void run(KeyStroke key) {
+        Monster monster;
+
+        processKey(key);
+
         retrieveCoins();
 
-        if(verifyMonsterCollisions()) {
-            setState(LevelState.CLOSING);
+        monster = verifyMonsterCollisions();
+
+        if(monster != null) {
+            hero.setHealth(hero.getHealth() - monster.getAttackPower());
         }
 
         moveMonsters();
 
-        if(verifyMonsterCollisions()) {
-            setState(LevelState.CLOSING);
+        monster = verifyMonsterCollisions();
+
+        if(monster != null) {
+            hero.setHealth(hero.getHealth() - monster.getAttackPower());
         }
+
+        if(hero.getHealth() == 0) setState(LevelState.CLOSING);
     }
 
-    private boolean verifyMonsterCollisions() {
+    private Monster verifyMonsterCollisions() {
         for(Monster monster: monsters) {
             if(monster.getPosition().equals(hero.getPosition())) {
-                return true;
+                return monster;
             }
         }
 
-        return false;
+        return null;
     }
 
     private void moveMonsters() {
@@ -105,7 +120,6 @@ public class Arena extends Level {
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
-        hero.draw(graphics);
 
         for(Wall wall: walls)
             wall.draw(graphics);
@@ -115,6 +129,8 @@ public class Arena extends Level {
 
         for(Monster monster: monsters)
             monster.draw(graphics);
+
+        hero.draw(graphics);
     }
 
     private List<Wall> createWalls() {

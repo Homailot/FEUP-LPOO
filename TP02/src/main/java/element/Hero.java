@@ -7,8 +7,14 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import utils.Position;
 
 public class Hero extends Element {
+    private int health;
+    private int maxHealth;
+
     public Hero(int x, int y) {
         super(x,y);
+        health = 100;
+        maxHealth = 100;
+
     }
 
 
@@ -34,5 +40,14 @@ public class Hero extends Element {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFF33"));
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(position.getX(), position.getY()), "X");
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        if(health < 0) this.health = 0;
+        else this.health = Math.min(health, maxHealth);
     }
 }

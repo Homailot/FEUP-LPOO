@@ -66,7 +66,7 @@ public class Game {
     }
 
     private void processKey(KeyStroke key) throws IOException {
-        arena.processKey(key);
+        arena.run(key);
         if(arena.getState() == Level.LevelState.CLOSING) {
             endGame();
             return;
