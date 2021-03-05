@@ -121,7 +121,7 @@ public class Arena extends Level {
             hero.setHealth(hero.getHealth() - monster.getAttackPower());
         }
 
-        if(hero.getHealth() == 0) setState(LevelState.CLOSING);
+        if(hero.getHealth() == 0) setState(LevelState.LOST);
     }
 
     private Monster verifyMonsterCollisions() {
@@ -157,6 +157,7 @@ public class Arena extends Level {
         return super.canHeroMove(position);
     }
 
+    @Override
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');

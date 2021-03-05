@@ -1,5 +1,6 @@
 package level;
 
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import utils.Position;
 
@@ -31,6 +32,8 @@ public abstract class Level {
         state = LevelState.RUNNING;
     }
 
+    public abstract void draw(TextGraphics graphics);
+
     public int getWidth() {
         return width;
     }
@@ -54,5 +57,5 @@ public abstract class Level {
 
     protected abstract void processKey(KeyStroke key);
 
-    protected abstract void run(KeyStroke key);
+    public abstract void run(KeyStroke key);
 }

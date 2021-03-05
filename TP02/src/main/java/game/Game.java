@@ -9,13 +9,14 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.input.KeyStroke;
 import level.Arena;
+import level.EndScreen;
 import level.Level;
 
 import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    private Arena arena;
+    private Level arena;
     private TextGraphics graphics;
     private enum State {
         GAME,
@@ -66,9 +67,8 @@ public class Game {
                             endGame();
                             return;
                         }
-                        case WIN -> {
-                            arena = new Arena(arena.getWidth(), arena.getHeight(), arena.getHero(), arena.getDifficulty() + 2);
-                        }
+                        case WIN -> arena = new Arena(arena.getWidth(), arena.getHeight(), ((Arena)arena).getHero(), ((Arena)arena).getDifficulty() + 2);
+                        case LOST -> arena = new EndScreen(arena.getWidth(), arena.getHeight());
                     }
                     break;
                 default:
