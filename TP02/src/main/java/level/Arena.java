@@ -6,10 +6,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import element.Hero;
-import element.Monster;
-import element.Wall;
-import element.Coin;
+import element.*;
 import utils.Position;
 
 
@@ -107,6 +104,9 @@ public class Arena extends Level {
 
             if(canHeroMove(newPos))
                 monster.setPosition(newPos);
+            else {
+                monster.changeDirection();
+            }
         }
     }
 
@@ -213,7 +213,11 @@ public class Arena extends Level {
                 }
             } while(overlaps);
 
-            monsters.add(new Monster(x, y));
+            int mon = random.nextInt(2);
+            switch (mon) {
+                case 0 -> monsters.add(new Troll(x, y));
+                case 1 -> monsters.add(new MonsterBall(x, y));
+            }
         }
 
         return monsters;
