@@ -20,6 +20,7 @@ public class Arena extends Level {
     private final List<Monster> monsters;
     private final List<Coin> coins;
     private final Door door;
+    private int difficulty;
     Random random;
 
     public Arena(int width, int height) {
@@ -27,21 +28,27 @@ public class Arena extends Level {
         hero = new Hero(3, 3);
         this.random = new Random();
 
+        this.difficulty = 5;
         this.walls = createWalls();
         this.coins = createCoins();
         this.door = spawnDoor();
         this.monsters = createMonsters();
     }
 
-    public Arena(int width, int height, Hero hero) {
+    public Arena(int width, int height, Hero hero, int difficulty) {
         super(width, height);
         this.hero = hero;
         this.random = new Random();
 
+        this.difficulty = difficulty;
         this.walls = createWalls();
         this.coins = createCoins();
         this.door = spawnDoor();
         this.monsters = createMonsters();
+    }
+
+    public int getDifficulty() {
+        return this.difficulty;
     }
 
     public Hero getHero() {
@@ -95,6 +102,7 @@ public class Arena extends Level {
 
         retrieveCoins();
         if(door.isActive() && hero.getPosition().equals(door.getPosition())) {
+            hero.setStreak(hero.getStreak()+1);
             this.setState(LevelState.WIN);
             return;
         }
@@ -175,6 +183,7 @@ public class Arena extends Level {
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(2, height+2),  "Health: " + hero.getHealth());
         graphics.putString(new TerminalPosition(width/2 - 5, height+2),  "Score: " + hero.getScore());
+        graphics.putString(new TerminalPosition(2, height+4),  "Streak: " + hero.getStreak());
     }
 
     private List<Wall> createWalls() {
@@ -199,7 +208,7 @@ public class Arena extends Level {
         Position pos;
         boolean overlaps;
 
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < this.difficulty; i++) {
             pos = genPosition(coins);
             x = pos.getX(); y = pos.getY();
 
@@ -240,7 +249,7 @@ public class Arena extends Level {
         boolean overlaps;
         Position pos;
 
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < this.difficulty; i++) {
             pos = genPosition(monsters);
             x = pos.getX(); y = pos.getY();
 

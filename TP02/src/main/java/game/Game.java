@@ -27,7 +27,7 @@ public class Game {
         int width = 40;
         int height = 20;
         try {
-            TerminalSize terminalSize = new TerminalSize(width, height+5);
+            TerminalSize terminalSize = new TerminalSize(width, height+7);
             Terminal terminal = new DefaultTerminalFactory()
                     .setInitialTerminalSize(terminalSize)
                     .createTerminal();
@@ -67,7 +67,7 @@ public class Game {
                             return;
                         }
                         case WIN -> {
-                            arena = new Arena(arena.getWidth(), arena.getHeight(), arena.getHero());
+                            arena = new Arena(arena.getWidth(), arena.getHeight(), arena.getHero(), arena.getDifficulty() + 2);
                         }
                     }
                     break;

@@ -61,4 +61,12 @@ public class Hero extends Element {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public int getStreak() {
+        return streak;
+    }
+
+    public void setStreak(int streak) {
+        this.streak = streak;
+    }
 }
