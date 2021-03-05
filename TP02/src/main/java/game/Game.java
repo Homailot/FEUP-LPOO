@@ -69,6 +69,7 @@ public class Game {
                         }
                         case WIN -> arena = new Arena(arena.getWidth(), arena.getHeight(), ((Arena)arena).getHero(), ((Arena)arena).getDifficulty() + 2);
                         case LOST -> arena = new EndScreen(arena.getWidth(), arena.getHeight());
+                        case RESTART -> arena = new Arena(arena.getWidth(), arena.getHeight());
                     }
                     break;
                 default:
