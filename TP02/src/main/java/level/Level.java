@@ -18,7 +18,10 @@ public abstract class Level {
 
     public enum LevelState {
         RUNNING,
-        CLOSING
+        LOST,
+        CLOSING,
+        RESTART,
+        WIN
     }
     private LevelState state;
 

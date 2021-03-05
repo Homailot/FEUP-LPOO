@@ -61,9 +61,14 @@ public class Game {
                     processKey(key);
                     arena.run(key);
 
-                    if(arena.getState() == Level.LevelState.CLOSING) {
-                        endGame();
-                        return;
+                    switch (arena.getState()) {
+                        case CLOSING -> {
+                            endGame();
+                            return;
+                        }
+                        case WIN -> {
+                            arena = new Arena(arena.getWidth(), arena.getHeight(), arena.getHero());
+                        }
                     }
                     break;
                 default:

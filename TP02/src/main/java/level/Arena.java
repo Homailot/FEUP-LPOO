@@ -15,19 +15,37 @@ import java.util.List;
 import java.util.Random;
 
 public class Arena extends Level {
-    private final Hero hero;
+    private Hero hero;
     private final List<Wall> walls;
     private final List<Monster> monsters;
     private final List<Coin> coins;
+    private final Door door;
+    Random random;
 
     public Arena(int width, int height) {
         super(width, height);
         hero = new Hero(3, 3);
-
+        this.random = new Random();
 
         this.walls = createWalls();
         this.coins = createCoins();
+        this.door = spawnDoor();
         this.monsters = createMonsters();
+    }
+
+    public Arena(int width, int height, Hero hero) {
+        super(width, height);
+        this.hero = hero;
+        this.random = new Random();
+
+        this.walls = createWalls();
+        this.coins = createCoins();
+        this.door = spawnDoor();
+        this.monsters = createMonsters();
+    }
+
+    public Hero getHero() {
+        return this.hero;
     }
 
     private void retrieveCoins() {
@@ -41,6 +59,16 @@ public class Arena extends Level {
                 break;
             }
         }
+
+        if(this.coins.isEmpty()) {
+            this.door.setActive(true);
+        }
+    }
+
+    private Door spawnDoor() {
+        Position pos = genPosition(new ArrayList<>());
+
+        return new Door(pos.getX(), pos.getY());
     }
 
     private void moveHero(Position position) {
@@ -57,8 +85,6 @@ public class Arena extends Level {
             case ArrowLeft -> moveHero(hero.moveLeft());
             case ArrowRight -> moveHero(hero.moveRight());
         }
-
-
     }
 
     @Override
@@ -68,6 +94,10 @@ public class Arena extends Level {
         processKey(key);
 
         retrieveCoins();
+        if(door.isActive() && hero.getPosition().equals(door.getPosition())) {
+            this.setState(LevelState.WIN);
+            return;
+        }
 
         monster = verifyMonsterCollisions();
 
@@ -123,8 +153,14 @@ public class Arena extends Level {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
 
+        if(door.isActive()) {
+            door.draw(graphics);
+        }
+
         for(Wall wall: walls)
             wall.draw(graphics);
+
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
 
         for(Coin coin: coins)
             coin.draw(graphics);
@@ -158,29 +194,14 @@ public class Arena extends Level {
     }
 
     private List<Coin> createCoins() {
-        Random random = new Random();
         ArrayList<Coin> coins = new ArrayList<>();
         int x, y;
+        Position pos;
         boolean overlaps;
 
         for(int i = 0; i < 5; i++) {
-            do {
-                overlaps = false;
-                x = random.nextInt(width-2) + 1;
-                y = random.nextInt(height - 2) + 1;
-
-                if (x == hero.getPosition().getX() && y == hero.getPosition().getY()) {
-                    overlaps = true;
-                    continue;
-                }
-
-                for(Coin coin:coins) {
-                    if(x == coin.getPosition().getX() && y == coin.getPosition().getY()) {
-                        overlaps = true;
-                        break;
-                    }
-                }
-            } while(overlaps);
+            pos = genPosition(coins);
+            x = pos.getX(); y = pos.getY();
 
             coins.add(new Coin(x, y));
         }
@@ -188,30 +209,40 @@ public class Arena extends Level {
         return coins;
     }
 
+    private <T extends Element> Position  genPosition(List<T> exclude) {
+        boolean overlaps;
+        int x, y;
+
+        do {
+            overlaps = false;
+            x = random.nextInt(width-2) + 1;
+            y = random.nextInt(height - 2) + 1;
+
+            if (x == hero.getPosition().getX() && y == hero.getPosition().getY()) {
+                overlaps = true;
+                continue;
+            }
+
+            for(Element element:exclude) {
+                if(x == element.getPosition().getX() && y == element.getPosition().getY()) {
+                    overlaps = true;
+                    break;
+                }
+            }
+        } while(overlaps);
+
+        return new Position(x,y);
+    }
+
     private List<Monster> createMonsters() {
-        Random random = new Random();
         ArrayList<Monster> monsters = new ArrayList<>();
         int x, y;
         boolean overlaps;
+        Position pos;
 
         for(int i = 0; i < 5; i++) {
-            do {
-                overlaps = false;
-                x = random.nextInt(width-2) + 1;
-                y = random.nextInt(height - 2) + 1;
-
-                if (x == hero.getPosition().getX() && y == hero.getPosition().getY()) {
-                    overlaps = true;
-                    continue;
-                }
-
-                for(Monster monster:monsters) {
-                    if(x == monster.getPosition().getX() && y == monster.getPosition().getY()) {
-                        overlaps = true;
-                        break;
-                    }
-                }
-            } while(overlaps);
+            pos = genPosition(monsters);
+            x = pos.getX(); y = pos.getY();
 
             int mon = random.nextInt(2);
             switch (mon) {

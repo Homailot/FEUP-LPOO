@@ -10,12 +10,14 @@ public class Hero extends Element {
     private int health;
     private int maxHealth;
     private int score;
+    private int streak;
 
     public Hero(int x, int y) {
         super(x,y);
         health = 100;
         maxHealth = 100;
         score = 0;
+        streak = 0;
     }
 
 
