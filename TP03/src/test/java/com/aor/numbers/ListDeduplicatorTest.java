@@ -1,21 +1,27 @@
 package com.aor.numbers;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListDeduplicatorTest {
+    List<Integer> list;
 
-    @Test
-    public void deduplicate() {
-        List<Integer> list = new ArrayList<>();
+    @BeforeEach
+    private void helper() {
+        list = new ArrayList<>();
         list.add(1);
         list.add(2);
         list.add(4);
         list.add(2);
         list.add(5);
+    }
+
+    @Test
+    public void deduplicate() {
 
         List<Integer> expected = new ArrayList<>();
         expected.add(1);
