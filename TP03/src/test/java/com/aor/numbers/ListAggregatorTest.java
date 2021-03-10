@@ -59,7 +59,7 @@ public class ListAggregatorTest {
     public void distinct() {
         ListSorter listSorter = new ListSorter(list);
         IListDeduplicator deduplicator = Mockito.mock(IListDeduplicator.class);
-        Mockito.when(deduplicator.deduplicate(any(IListSorter.class))).thenReturn(Arrays.asList(1,2,4,5));
+        Mockito.when(deduplicator.deduplicate(any(IListSorter.class))).thenReturn(Arrays.asList(1, 2, 4, 5));
 
         ListAggregator aggregator = new ListAggregator(list);
 
@@ -84,7 +84,7 @@ public class ListAggregatorTest {
     @Test
     public void distinct_bug_8726() {
         IListDeduplicator deduplicator = Mockito.mock(IListDeduplicator.class);
-        Mockito.when(deduplicator.deduplicate(any(IListSorter.class))).thenReturn(Arrays.asList(1,2,4));
+        Mockito.when(deduplicator.deduplicate(any(IListSorter.class))).thenReturn(Arrays.asList(1, 2, 4));
 
         list.clear();
         list.add(1);
