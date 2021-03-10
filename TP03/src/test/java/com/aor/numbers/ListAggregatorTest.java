@@ -59,4 +59,17 @@ public class ListAggregatorTest {
 
         Assertions.assertEquals(4, distinct);
     }
+
+    @Test
+    public void max_bug_7263() {
+        list.clear();
+        list.add(-1);
+        list.add(-4);
+        list.add(-5);
+
+        ListAggregator aggregator = new ListAggregator(list);
+        int max = aggregator.max();
+
+        Assertions.assertEquals(-1, max);
+    }
 }
