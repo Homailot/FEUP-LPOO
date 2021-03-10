@@ -8,10 +8,8 @@ import java.util.List;
  * from a list.
  */
 public class ListDeduplicator implements IListDeduplicator {
-    private final List<Integer> list;
 
-    public ListDeduplicator(List<Integer> list) {
-        this.list = list;
+    public ListDeduplicator() {
     }
 
     /**

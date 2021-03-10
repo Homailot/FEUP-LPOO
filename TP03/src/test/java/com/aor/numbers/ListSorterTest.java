@@ -13,7 +13,7 @@ public class ListSorterTest {
 
     @BeforeEach
     private void helper() {
-        list = new ArrayList();
+        list = new ArrayList<>();
         list.add(3);
         list.add(2);
         list.add(6);
@@ -25,7 +25,7 @@ public class ListSorterTest {
 
     @Test
     public void sort() {
-        List<Integer> expected = new ArrayList();
+        List<Integer> expected = new ArrayList<>();
         expected.add(1);
         expected.add(2);
         expected.add(3);

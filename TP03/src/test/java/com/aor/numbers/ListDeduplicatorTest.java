@@ -30,7 +30,7 @@ public class ListDeduplicatorTest {
         expected.add(4);
         expected.add(5);
 
-        ListDeduplicator deduplicator = new ListDeduplicator(list);
+        ListDeduplicator deduplicator = new ListDeduplicator();
         List<Integer> distinct = deduplicator.deduplicate(new ListSorter(list));
 
         Assertions.assertEquals(expected, distinct);
@@ -54,7 +54,7 @@ public class ListDeduplicatorTest {
 
         List<Integer> expected = Arrays.asList(1,2,4);
 
-        ListDeduplicator deduplicator = new ListDeduplicator(list);
+        ListDeduplicator deduplicator = new ListDeduplicator();
         List<Integer> distinct = deduplicator.deduplicate(new StubSorter());
 
         Assertions.assertEquals(expected, distinct);
