@@ -26,4 +26,24 @@ public class ListFiltererTest {
 
         Assertions.assertEquals(expected, listFilterer.filter(filter));
     }
+
+    @Test
+    public void posFilter() {
+        List<Integer> list = Arrays.asList(-1,2,-3,4,5,-1,2,-3,4,2);
+        List<Integer> expected = Arrays.asList(2,4,5,2,4,2);
+
+        ListFilterer listFilterer = new ListFilterer(list);
+
+        Assertions.assertEquals(expected, listFilterer.filter(new PositiveFilter()));
+    }
+
+    @Test
+    public void divideByFilter() {
+        List<Integer> list = Arrays.asList(-1,2,-3,4,5,-2,2,-3,4,2);
+        List<Integer> expected = Arrays.asList(2,4,-2,2,4,2);
+
+        ListFilterer listFilterer = new ListFilterer(list);
+
+        Assertions.assertEquals(expected, listFilterer.filter(new DivisibleByFilter(2)));
+    }
 }
