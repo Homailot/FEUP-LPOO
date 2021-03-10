@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListSorterTest {
@@ -36,6 +37,22 @@ public class ListSorterTest {
 
         ListSorter sorter = new ListSorter(list);
         List<Integer> sorted = sorter.sort();
+
+        Assertions.assertEquals(expected, sorted);
+    }
+
+    @Test
+    public void sort_bug_8726() {
+        list.clear();
+        list.add(1);
+        list.add(2);
+        list.add(4);
+        list.add(2);
+
+        List<Integer> expected = Arrays.asList(1,2,2,4);
+
+        ListSorter listSorter = new ListSorter(list);
+        List<Integer> sorted = listSorter.sort();
 
         Assertions.assertEquals(expected, sorted);
     }

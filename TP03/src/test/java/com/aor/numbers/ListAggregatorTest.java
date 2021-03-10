@@ -57,14 +57,14 @@ public class ListAggregatorTest {
         class StubDeduplicator implements IListDeduplicator {
 
             @Override
-            public List<Integer> deduplicate() {
+            public List<Integer> deduplicate(IListSorter sorter) {
                 return Arrays.asList(1,2,4,5);
             }
         }
 
         ListAggregator aggregator = new ListAggregator(list);
 
-        int distinct = aggregator.distinct(new StubDeduplicator());
+        int distinct = aggregator.distinct(new StubDeduplicator(), new ListSorter(list));
 
         Assertions.assertEquals(4, distinct);
     }
@@ -87,7 +87,7 @@ public class ListAggregatorTest {
         class StubDeduplicator implements IListDeduplicator {
 
             @Override
-            public List<Integer> deduplicate() {
+            public List<Integer> deduplicate(IListSorter sorter) {
                 return Arrays.asList(1,2,4);
             }
         }
@@ -100,7 +100,7 @@ public class ListAggregatorTest {
 
         ListAggregator aggregator = new ListAggregator(list);
 
-        int distinct = aggregator.distinct(new StubDeduplicator());
+        int distinct = aggregator.distinct(new StubDeduplicator(), new ListSorter(list));
 
         Assertions.assertEquals(3, distinct);
     }
