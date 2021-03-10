@@ -25,14 +25,16 @@ public class ListSorterTest {
 
     @Test
     public void sort() {
-        List<Integer> expected = new ArrayList<>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(3);
-        expected.add(4);
-        expected.add(5);
-        expected.add(6);
-        expected.add(7);
+        list.clear();
+        list.add(25);
+        list.add(20);
+        list.add(13);
+        list.add(15);
+        list.add(13);
+        list.add(12);
+        list.add(11);
+
+        List<Integer> expected = Arrays.asList(11,12,13,13,15,20,25);
 
 
         ListSorter sorter = new ListSorter();

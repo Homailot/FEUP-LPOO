@@ -38,6 +38,7 @@ public class ListAggregatorTest {
 
     @Test
     public void max() {
+        list.add(5);
         ListAggregator aggregator = new ListAggregator(new ListDeduplicator(new ListSorter()));
 
         int max = aggregator.max(list);
@@ -47,6 +48,7 @@ public class ListAggregatorTest {
 
     @Test
     public void min() {
+        list.add(1);
         ListAggregator aggregator = new ListAggregator(new ListDeduplicator(new ListSorter()));
 
         int min = aggregator.min(list);
