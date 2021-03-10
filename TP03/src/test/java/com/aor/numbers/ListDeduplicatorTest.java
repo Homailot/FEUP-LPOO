@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyList;
+
 public class ListDeduplicatorTest {
     List<Integer> list;
 
@@ -31,8 +33,8 @@ public class ListDeduplicatorTest {
         expected.add(4);
         expected.add(5);
 
-        ListDeduplicator deduplicator = new ListDeduplicator();
-        List<Integer> distinct = deduplicator.deduplicate(new ListSorter(list));
+        ListDeduplicator deduplicator = new ListDeduplicator(new ListSorter());
+        List<Integer> distinct = deduplicator.deduplicate(list);
 
         Assertions.assertEquals(expected, distinct);
     }
@@ -40,7 +42,7 @@ public class ListDeduplicatorTest {
     @Test
     public void deduplicate_bug_8726() {
         IListSorter sorter = Mockito.mock(IListSorter.class);
-        Mockito.when(sorter.sort()).thenReturn(Arrays.asList(1,2,2,4));
+        Mockito.when(sorter.sort(anyList())).thenReturn(Arrays.asList(1,2,2,4));
 
         list.clear();
         list.add(1);
@@ -50,8 +52,8 @@ public class ListDeduplicatorTest {
 
         List<Integer> expected = Arrays.asList(1,2,4);
 
-        ListDeduplicator deduplicator = new ListDeduplicator();
-        List<Integer> distinct = deduplicator.deduplicate(sorter);
+        ListDeduplicator deduplicator = new ListDeduplicator(sorter);
+        List<Integer> distinct = deduplicator.deduplicate(list);
 
         Assertions.assertEquals(expected, distinct);
     }

@@ -35,8 +35,8 @@ public class ListSorterTest {
         expected.add(7);
 
 
-        ListSorter sorter = new ListSorter(list);
-        List<Integer> sorted = sorter.sort();
+        ListSorter sorter = new ListSorter();
+        List<Integer> sorted = sorter.sort(list);
 
         Assertions.assertEquals(expected, sorted);
     }
@@ -51,8 +51,8 @@ public class ListSorterTest {
 
         List<Integer> expected = Arrays.asList(1,2,2,4);
 
-        ListSorter listSorter = new ListSorter(list);
-        List<Integer> sorted = listSorter.sort();
+        ListSorter listSorter = new ListSorter();
+        List<Integer> sorted = listSorter.sort(list);
 
         Assertions.assertEquals(expected, sorted);
     }

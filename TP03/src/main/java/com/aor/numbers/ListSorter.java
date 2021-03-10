@@ -8,10 +8,9 @@ import java.util.List;
  * An utility class to sort list of numbers.
  */
 public class ListSorter implements IListSorter {
-    private final List<Integer> list;
 
-    public ListSorter(List<Integer> list) {
-        this.list = list;
+    public ListSorter() {
+
     }
 
     /**
@@ -19,7 +18,7 @@ public class ListSorter implements IListSorter {
      * @return A sorted version of the list.
      */
     @Override
-    public List<Integer> sort() {
+    public List<Integer> sort(List<Integer> list) {
         ArrayList<Integer> sorted;
         sorted = new ArrayList<>(list);
 

@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 
 public class ListAggregatorTest {
     List<Integer> list;
@@ -28,42 +29,39 @@ public class ListAggregatorTest {
 
     @Test
     public void sum() {
-        ListAggregator aggregator = new ListAggregator(list);
+        ListAggregator aggregator = new ListAggregator(new ListDeduplicator(new ListSorter()));
 
-        int sum = aggregator.sum();
+        int sum = aggregator.sum(list);
 
         Assertions.assertEquals(14, sum);
     }
 
     @Test
     public void max() {
+        ListAggregator aggregator = new ListAggregator(new ListDeduplicator(new ListSorter()));
 
-        ListAggregator aggregator = new ListAggregator(list);
-
-        int max = aggregator.max();
+        int max = aggregator.max(list);
 
         Assertions.assertEquals(5, max);
     }
 
     @Test
     public void min() {
+        ListAggregator aggregator = new ListAggregator(new ListDeduplicator(new ListSorter()));
 
-        ListAggregator aggregator = new ListAggregator(list);
-
-        int min = aggregator.min();
+        int min = aggregator.min(list);
 
         Assertions.assertEquals(1, min);
     }
 
     @Test
     public void distinct() {
-        ListSorter listSorter = new ListSorter(list);
         IListDeduplicator deduplicator = Mockito.mock(IListDeduplicator.class);
-        Mockito.when(deduplicator.deduplicate(any(IListSorter.class))).thenReturn(Arrays.asList(1, 2, 4, 5));
+        Mockito.when(deduplicator.deduplicate(anyList())).thenReturn(Arrays.asList(1, 2, 4, 5));
 
-        ListAggregator aggregator = new ListAggregator(list);
+        ListAggregator aggregator = new ListAggregator(new ListDeduplicator(new ListSorter()));
 
-        int distinct = aggregator.distinct(deduplicator, listSorter);
+        int distinct = aggregator.distinct(list);
 
         Assertions.assertEquals(4, distinct);
     }
@@ -75,8 +73,8 @@ public class ListAggregatorTest {
         list.add(-4);
         list.add(-5);
 
-        ListAggregator aggregator = new ListAggregator(list);
-        int max = aggregator.max();
+        ListAggregator aggregator = new ListAggregator(new ListDeduplicator(new ListSorter()));
+        int max = aggregator.max(list);
 
         Assertions.assertEquals(-1, max);
     }
@@ -84,7 +82,7 @@ public class ListAggregatorTest {
     @Test
     public void distinct_bug_8726() {
         IListDeduplicator deduplicator = Mockito.mock(IListDeduplicator.class);
-        Mockito.when(deduplicator.deduplicate(any(IListSorter.class))).thenReturn(Arrays.asList(1, 2, 4));
+        Mockito.when(deduplicator.deduplicate(anyList())).thenReturn(Arrays.asList(1, 2, 4));
 
         list.clear();
         list.add(1);
@@ -92,9 +90,8 @@ public class ListAggregatorTest {
         list.add(4);
         list.add(2);
 
-        ListAggregator aggregator = new ListAggregator(list);
-
-        int distinct = aggregator.distinct(deduplicator, new ListSorter(list));
+        ListAggregator aggregator = new ListAggregator(new ListDeduplicator(new ListSorter()));
+        int distinct = aggregator.distinct(list);
 
         Assertions.assertEquals(3, distinct);
     }

@@ -7,17 +7,17 @@ import java.util.List;
  * into a single integer using various functions.
  */
 public class ListAggregator {
-    private final List<Integer> list;
+    IListDeduplicator deduplicator;
 
-    public ListAggregator(List<Integer> list) {
-        this.list = list;
+    public ListAggregator(IListDeduplicator deduplicator) {
+        this.deduplicator = deduplicator;
     }
 
     /**
      * Sums all numbers in a list.
      * @return The sum of all the values in the list.
      */
-    public Integer sum() {
+    public Integer sum(List<Integer> list) {
         int sum = 0;
 
         for (Integer number : list)
@@ -30,7 +30,7 @@ public class ListAggregator {
      * Calculates the maximum value in a list.
      * @return The maximum value in the list.
      */
-    public Integer max() {
+    public Integer max(List<Integer> list) {
         int max = Integer.MIN_VALUE;
 
         for (Integer number : list)
@@ -44,7 +44,7 @@ public class ListAggregator {
      * Calculates the minimum value in a list.
      * @return The minimum value in the list.
      */
-    public Integer min() {
+    public Integer min(List<Integer> list) {
         int min = Integer.MAX_VALUE;
 
         for (Integer number : list)
@@ -58,8 +58,8 @@ public class ListAggregator {
      * Counts the number of distinct numbers in a list.
      * @return The number of distinct numbers.
      */
-    public int distinct(IListDeduplicator deduplicator, IListSorter sorter) {
-        List<Integer> distinct = deduplicator.deduplicate(sorter);
+    public int distinct(List<Integer> list) {
+        List<Integer> distinct = deduplicator.deduplicate(list);
 
         return distinct.size();
     }
