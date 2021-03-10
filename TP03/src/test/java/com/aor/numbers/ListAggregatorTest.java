@@ -5,10 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListAggregatorTest {
     List<Integer> list;
+
 
     @BeforeEach
     private void helper() {
@@ -52,10 +54,17 @@ public class ListAggregatorTest {
 
     @Test
     public void distinct() {
+        class StubDeduplicator implements IListDeduplicator {
+
+            @Override
+            public List<Integer> deduplicate() {
+                return Arrays.asList(1,2,4,5);
+            }
+        }
 
         ListAggregator aggregator = new ListAggregator(list);
 
-        int distinct = aggregator.distinct();
+        int distinct = aggregator.distinct(new StubDeduplicator());
 
         Assertions.assertEquals(4, distinct);
     }
@@ -71,5 +80,28 @@ public class ListAggregatorTest {
         int max = aggregator.max();
 
         Assertions.assertEquals(-1, max);
+    }
+
+    @Test
+    public void distinct_bug_8726() {
+        class StubDeduplicator implements IListDeduplicator {
+
+            @Override
+            public List<Integer> deduplicate() {
+                return Arrays.asList(1,2,4);
+            }
+        }
+
+        list.clear();
+        list.add(1);
+        list.add(2);
+        list.add(4);
+        list.add(2);
+
+        ListAggregator aggregator = new ListAggregator(list);
+
+        int distinct = aggregator.distinct(new StubDeduplicator());
+
+        Assertions.assertEquals(3, distinct);
     }
 }
