@@ -1,7 +1,7 @@
 import java.awt.geom.Area;
 import java.util.List;
 
-public class City {
+public class City implements SumProvider {
     private List<House> houses;
 
     City(List<House> houses) {

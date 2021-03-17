@@ -12,12 +12,14 @@ public class Application {
         aggregator.addHasArea(new Ellipse(1,1));
         aggregator.addHasArea(new Triangle(2,2));
         aggregator.addHasArea(new House(20));
+        aggregator.addHasArea(new Rectangle(2,3));
 
         AreaStringOutputter stringOutputter = new AreaStringOutputter(aggregator);
         AreaXMLOutputter xmlOutputter = new AreaXMLOutputter(aggregator);
 
         System.out.println(stringOutputter.output());
         System.out.println(xmlOutputter.output());
+        System.out.println(new Line(3).draw());
 
         List<House> houses = new ArrayList<>();
         houses.add(new House(50));
@@ -26,5 +28,9 @@ public class Application {
         City city = new City(houses);
 
         AreaStringOutputter cityStringOutputter = new AreaStringOutputter(city);
+        AreaXMLOutputter cityXMLOutputter = new AreaXMLOutputter(city);
+
+        System.out.println(cityStringOutputter.output());
+        System.out.println(cityXMLOutputter.output());
     }
 }
