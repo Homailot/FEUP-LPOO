@@ -1,4 +1,4 @@
-public class Triangle implements Shape{
+public class Triangle implements AreaShape {
     private double base, height;
 
     Triangle(double base,double height) {

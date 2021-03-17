@@ -1,4 +1,4 @@
-public class Rectangle implements Shape {
+public class Rectangle implements AreaShape {
     private double width, height;
 
     Rectangle(double width, double height) {

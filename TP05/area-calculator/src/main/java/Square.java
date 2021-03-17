@@ -1,4 +1,4 @@
-public class Square implements Shape{
+public class Square implements AreaShape {
     private double side;
 
     Square(double side) {

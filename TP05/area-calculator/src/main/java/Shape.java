@@ -1,4 +1,2 @@
-public interface Shape extends BasicShape {
-    double getArea();
-    String draw();
+public interface Shape extends Drawable{
 }

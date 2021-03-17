@@ -1,4 +1,4 @@
-public class Circle implements Shape{
+public class Circle implements AreaShape {
     private double radius;
     Circle(double radius) {
         this.radius = radius;
