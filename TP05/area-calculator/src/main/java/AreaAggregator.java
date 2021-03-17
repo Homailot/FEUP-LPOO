@@ -17,6 +17,8 @@ public class AreaAggregator {
                 sum += Math.pow(((Square) shape).getSide(), 2);
             } else if (shape.getClass().equals(Ellipse.class)) {
                 sum += Math.PI * ((Ellipse) shape).getX_radius() * ((Ellipse) shape).getY_radius();
+            } else if (shape.getClass().equals(Rectangle.class)) {
+                sum += ((Rectangle) shape).getHeight() * ((Rectangle) shape).getWidth();
             }
         }
         return sum;
