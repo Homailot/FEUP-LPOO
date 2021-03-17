@@ -1,13 +1,8 @@
-public class Line implements Shape{
+public class Line implements BasicShape{
     private double length;
 
     Line(double length) {
         setLength(length);
-    }
-
-    @Override
-    public double getArea() {
-        throw new NoAreaException();
     }
 
     public double getLength() {
