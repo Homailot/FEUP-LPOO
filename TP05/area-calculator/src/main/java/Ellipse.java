@@ -1,4 +1,4 @@
-public class Ellipse extends Shape {
+public class Ellipse implements Shape {
     private double x_radius, y_radius;
 
     Ellipse(double x_radius, double y_radius) {
@@ -20,5 +20,10 @@ public class Ellipse extends Shape {
 
     public void setY_radius(double y_radius) {
         this.y_radius = y_radius;
+    }
+
+    @Override
+    public double getArea() {
+        return Math.PI*x_radius*y_radius;
     }
 }

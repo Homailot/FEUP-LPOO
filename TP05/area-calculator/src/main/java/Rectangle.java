@@ -1,4 +1,4 @@
-public class Rectangle extends Shape {
+public class Rectangle implements Shape {
     private double width, height;
 
     Rectangle(double width, double height) {
@@ -20,5 +20,10 @@ public class Rectangle extends Shape {
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    @Override
+    public double getArea() {
+        return width*height;
     }
 }
