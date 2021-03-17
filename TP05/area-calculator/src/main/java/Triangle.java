@@ -11,6 +11,11 @@ public class Triangle implements Shape{
         return base*height/2;
     }
 
+    @Override
+    public String draw() {
+        return "Triangle";
+    }
+
     public double getBase() {
         return base;
     }

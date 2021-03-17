@@ -26,4 +26,9 @@ public class Rectangle implements Shape {
     public double getArea() {
         return width*height;
     }
+
+    @Override
+    public String draw() {
+        return "Rectangle";
+    }
 }
