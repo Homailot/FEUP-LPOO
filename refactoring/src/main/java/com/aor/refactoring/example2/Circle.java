@@ -1,7 +1,7 @@
 package com.aor.refactoring.example2;
 
 public class Circle extends Shape {
-    private double radius;
+    private final double radius;
 
     public Circle(double x, double y, double radius) {
         super(x, y);

@@ -1,21 +1,20 @@
 package com.aor.refactoring.example3;
 
 public class SimpleOrder {
-    private Discount discount;
-    private double price;
+    private final Discount discount;
+    private final double price;
 
-    public SimpleOrder(double price) {
+    public SimpleOrder(double price, Discount discount) {
         this.price = price;
-    }
-
-    public void setDiscount(Discount discount) {
         this.discount = discount;
     }
 
+    public SimpleOrder(double price) {
+        this.price = price;
+        this.discount = new NoDiscount();
+    }
+
     public double getTotal() {
-        if (discount == null)
-            return price;
-        else
-            return discount.applyDiscount(price);
+        return discount.applyDiscount(price);
     }
 }

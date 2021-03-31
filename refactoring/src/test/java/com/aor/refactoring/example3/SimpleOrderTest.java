@@ -8,15 +8,13 @@ public class SimpleOrderTest {
 
     @Test
     public void testFixedDiscount() {
-        SimpleOrder order = new SimpleOrder(100);
-        order.setDiscount(new Discount(10));
+        SimpleOrder order = new SimpleOrder(100, new FixedDiscount(10));
         assertEquals(90, order.getTotal(), 0.1);
     }
 
     @Test
     public void testPercentageDiscount() {
-        SimpleOrder order = new SimpleOrder(100);
-        order.setDiscount(new Discount(0.2));
+        SimpleOrder order = new SimpleOrder(100, new PercentageDiscount(0.2));
         assertEquals(80, order.getTotal(), 0.1);
     }
 
