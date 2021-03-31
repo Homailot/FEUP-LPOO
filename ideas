@@ -1,0 +1,10 @@
+Arena violates the single responsibility principle:
+1. stores information about where everything is (Coins, Heroes, Monsters)
+2. checks for collisions
+3. determines the actions for each key pressed
+4. moves the hero and the monsters
+5. draws everything
+
+fixes:
+1. Level could have observers on the Game class
+2. Separate Arena into: Arena(storing coins, creating coins, etc...), Colliders, 
